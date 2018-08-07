@@ -1,0 +1,63 @@
+# BONUS 2
+
+### We are looking for credentials.
+
+-   We use a software call Dirb to scrap some of the most common url of the website.
+
+```
+git clone https://github.com/v0re/dirb.git
+./dirb https://[YOUR IP]/ wordlists/common.txt
+
+---- Scanning URL: https://10.12.1.150/ ----
++ https://10.12.1.150/cgi-bin/ (CODE:403|SIZE:288)
+==> DIRECTORY: https://10.12.1.150/forum/
+==> DIRECTORY: https://10.12.1.150/phpmyadmin/
++ https://10.12.1.150/server-status (CODE:403|SIZE:293)
+==> DIRECTORY: https://10.12.1.150/webmail/
+```
+
+### Forum
+
+-   After sneaking around and read all the forum post, we find a clue on the post "Probleme login ?" url =  [https://10.12.1.150/forum/index.php?id=6](https://10.12.1.150/forum/index.php?id=6)
+
+-   If your look for  `Failed password`  your will find one where the user is  `!q\]Ej?*5K5cy*AJ`  and we think that the user who tried to login make a mistake between are password and login
+
+
+[![alt text](https://github.com/fhenri42/boot2root/raw/master/Ressources/Screen%20Shot%202018-03-05%20at%2010.05.14%20AM.png)](https://github.com/fhenri42/boot2root/blob/master/Ressources/Screen%20Shot%202018-03-05%20at%2010.05.14%20AM.png)
+
+-   We can see couple second after this attempt, lmezard successful login, so we can conclude the login is lmezard (Laurie Mezard)
+
+	-   Use this credential to login the forum.
+
+	-   Conclution we have one of the password and the email of lmezard.
+
+
+### [](https://github.com/fhenri42/boot2root/blob/master/writeup1.md#webmail)Webmail
+
+	-   On the webmail we have a login form, and we just find a password and a email in the forum section so we decided to give it a try.
+
+	[![alt text](https://github.com/fhenri42/boot2root/raw/master/Ressources/Screen%20Shot%202018-03-05%20at%2010.04.21%20AM.png)](https://github.com/fhenri42/boot2root/blob/master/Ressources/Screen%20Shot%202018-03-05%20at%2010.04.21%20AM.png)
+
+	-   Login:  `laurie@borntosec.net`
+
+	-   Password:  `!q\]Ej?*5K5cy*AJ`
+
+	-   When we logged in , we find a email with the subject  `DB Access`
+
+
+	[![alt text](https://github.com/fhenri42/boot2root/raw/master/Ressources/Screen%20Shot%202018-03-05%20at%2010.06.32%20AM.png)](https://github.com/fhenri42/boot2root/blob/master/Ressources/Screen%20Shot%202018-03-05%20at%2010.06.32%20AM.png)
+
+	-   Login:  `root`
+	-   Password:  `Fg-'kKXBj87E:aJ$`
+	-   we really suspect in the access for a DB
+
+
+## ROOT DB
+
+	Now that we can connect as "root" to the database, to connect as "admin" on the forum, just a few steps needed :
+	-	Open the **forum_db** database
+	-	Open the **mlf2_userdata** table
+	-	Copy the **user_pw** field of **lmezard** and paste it to **admin**.
+	-	Log into the forum using the couple **admin** : **!q\]Ej?\*5K5cy\*AJ**
+
+## ROOT FORUM

